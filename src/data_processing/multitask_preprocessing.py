@@ -14,7 +14,7 @@ age_group_map = {
     'more than 60': 4
 }
 
-# Model-specific preprocessing configurations
+# Model specific preprocessing configurations
 MODEL_MAP = {
     1: {
         'name': 'efficientnet_v2',
@@ -59,7 +59,7 @@ def get_augmentation():
 
 def load_and_clean_csv(csv_path):
     df = pd.read_csv(csv_path)
-    print(f"\nInitial DataFrame for {os.path.basename(csv_path)}:")
+
     print(df.head())
 
     # Remove rows with missing labels

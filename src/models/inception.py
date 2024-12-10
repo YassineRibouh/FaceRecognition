@@ -1,7 +1,7 @@
 from tensorflow.keras import layers, models
 from tensorflow.keras.applications import InceptionV3
 
-
+# dropout_rate 0.3, batch size 32
 def create_inception(dropout_rate, input_shape=(299, 299, 3)):
 
     base_model = InceptionV3(include_top=False, input_shape=input_shape, weights='imagenet')

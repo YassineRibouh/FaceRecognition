@@ -5,7 +5,8 @@ from tensorflow.keras.applications import ResNet50
 def create_resnet50(dropout_rate, input_shape=(224, 224, 3)):
 
     base_model = ResNet50(include_top=False, input_shape=input_shape, weights='imagenet')
-    base_model.trainable = False  # Freeze the base model
+    # Freeze the base model
+    base_model.trainable = False
 
     # Build the model
     model = models.Sequential([

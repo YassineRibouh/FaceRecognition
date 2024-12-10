@@ -37,13 +37,10 @@ AUTOTUNE = tf.data.AUTOTUNE
 # Data Augmentation
 
 def get_face_augmentation():
-    """
-    Returns a Sequential model with face-specific data augmentations
-    """
     data_augmentation = tf.keras.Sequential([
         tf.keras.layers.RandomFlip("horizontal"),
-        tf.keras.layers.RandomRotation(0.1),  # Rotates by ±10%
-        tf.keras.layers.RandomZoom(0.1),  # Zooms by ±10%
+        tf.keras.layers.RandomRotation(0.1),
+        tf.keras.layers.RandomZoom(0.1),
         tf.keras.layers.RandomBrightness(factor=0.1),
         tf.keras.layers.RandomContrast(factor=0.1),
         tf.keras.layers.GaussianNoise(0.05)
@@ -54,7 +51,7 @@ def get_face_augmentation():
 # Dynamic Parsing Functions
 
 
-# Parsing Functions with Model-Specific Preprocessing
+# Parsing Functions
 def parse_image(image, label, preprocess_func, target_size):
     image = tf.image.resize(image, target_size)
     image = preprocess_func(image)

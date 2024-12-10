@@ -8,7 +8,8 @@ from tensorflow.keras.applications import EfficientNetV2B0, EfficientNetV2B3
 # Batch size 32, learning rate 0.001, dopout 0.3
 def create_efficientnetb0(dropout_rate, input_shape=(224, 224, 3)):
     base_model = EfficientNetV2B0(include_top=False, input_shape=input_shape, weights='imagenet')
-    base_model.trainable = False  # Freeze the base model
+    # Freeze the base model
+    base_model.trainable = False
 
     # Build the model
     model = models.Sequential([
@@ -20,9 +21,10 @@ def create_efficientnetb0(dropout_rate, input_shape=(224, 224, 3)):
     return model
 
 # Batch size 32, learning rate 0.001, dopout 0.3
-def create_efficientnetb3(dropout_rate, input_shape=(224, 224, 3)):
+def create_efficientnetb3(dropout_rate, input_shape=(300, 300, 3)):
     base_model = EfficientNetV2B3(include_top=False, input_shape=input_shape, weights='imagenet')
-    base_model.trainable = False  # Freeze the base model
+    # Freeze the base model
+    base_model.trainable = False
 
     # Build the model
     model = models.Sequential([
@@ -48,7 +50,7 @@ def create_efficientnetb0_multi_task(dropout_rate, input_shape=(224, 224, 3)):
 
 
     base_model = EfficientNetV2B0(include_top=False, input_shape=input_shape, weights='imagenet')
-    # Freeze all layers
+    # Freeze the base model
     base_model.trainable = False
 
     # Input layer
@@ -74,7 +76,6 @@ def create_efficientnetb0_multi_task(dropout_rate, input_shape=(224, 224, 3)):
 
 # Batch size 32, learning rate 0.0001, dopout 0.3
 def create_efficientnetb0_multi_task_v2(dropout_rate, input_shape=(224, 224, 3)):
-
 
     base_model = EfficientNetV2B0(include_top=False, input_shape=input_shape, weights='imagenet')
 
@@ -116,7 +117,7 @@ def create_efficientnetb0_multi_task_v2(dropout_rate, input_shape=(224, 224, 3))
 # EfficientNet B3
 
 # Batch size 32, learning rate 0.001, dropout 0.3
-def create_efficientnetb3_multi_task(dropout_rate, input_shape=(224, 224, 3)):
+def create_efficientnetb3_multi_task(dropout_rate, input_shape=(300, 300, 3)):
     # Load EfficientNetV2B0 as the base model
     base_model = EfficientNetV2B3(include_top=False, input_shape=input_shape, weights='imagenet')
     # Freeze all layers
@@ -144,7 +145,7 @@ def create_efficientnetb3_multi_task(dropout_rate, input_shape=(224, 224, 3)):
 
 
 # Batchsize 64, learning rate 0.0001, dropout 0.4
-def create_efficientnetb3_multi_task_v2(dropout_rate=0.4, input_shape=(224, 224, 3)):
+def create_efficientnetb3_multi_task_v2(dropout_rate=0.4, input_shape=(300, 300, 3)):
     # Load EfficientNetV2B3 as the base model
     base_model = EfficientNetV2B3(include_top=False, input_shape=input_shape, weights='imagenet')
 

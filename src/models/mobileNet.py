@@ -5,6 +5,7 @@ from tensorflow.keras.applications import MobileNetV2
 def create_mobileNet(dropout_rate, input_shape=(224, 224, 3)):
 
     base_model = MobileNetV2(include_top=False, input_shape=input_shape, weights='imagenet')
+    # Freeze the base model
     base_model.trainable = False
 
     model = models.Sequential([
@@ -21,7 +22,7 @@ def create_mobileNet(dropout_rate, input_shape=(224, 224, 3)):
 def create_mobileNet_multi_task(dropout_rate=0,input_shape=(224,224,3)):
 
     base_model = MobileNetV2(include_top=False, input_shape=input_shape, weights='imagenet')
-    # Freeze all layers
+    # Freeze the base model
     base_model.trainable = False
 
     inputs = layers.Input(shape=input_shape)
@@ -47,7 +48,7 @@ def create_mobileNet_multi_task_v2(dropout_rate=0.5, input_shape=(224,224,3)):
 
     base_model = MobileNetV2(include_top=False, input_shape=input_shape, weights='imagenet')
 
-    # Freeze all layers
+    # Freeze the base model
     base_model.trainable = False
 
     inputs = layers.Input(shape=input_shape)
