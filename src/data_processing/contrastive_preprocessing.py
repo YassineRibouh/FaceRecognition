@@ -18,17 +18,21 @@ def load_identity_data():
     identity_df = pd.read_csv(IDENTITY_FILE, sep=' ', names=['image_id', 'identity'])
     # Get identities
     identity_counts = identity_df['identity'].value_counts()
+    # Filters identities with at least SAMPLES_PER_IDENTITY images
     valid_identities = identity_counts[
         identity_counts >= SAMPLES_PER_IDENTITY
         ].nlargest(MAX_IDENTITIES).index
     filtered_dfs = []
+    # randomly sample SAMPLES_PER_IDENTITY images
     for identity in tqdm(valid_identities, desc="Processing identities"):
         samples = identity_df[identity_df['identity'] == identity].sample(
             n=SAMPLES_PER_IDENTITY, random_state=42
         )
         filtered_dfs.append(samples)
+
     final_df = pd.concat(filtered_dfs, ignore_index=True)
     final_df['image_path'] = IMAGE_DIR + '/' + final_df['image_id']
+    # Check if the image exist
     existing_mask = final_df['image_path'].apply(os.path.exists)
     final_df = final_df[existing_mask].reset_index(drop=True)
 
@@ -100,7 +104,6 @@ def create_pairs_dataset(identity_df, model_type='custom', is_training=False):
     # Proces pairs
     def process_pairs(paths, labels):
         anchor_paths, comparison_paths = paths
-
         # Process images
         anchor_images = tf.map_fn(
             preprocess_image,
@@ -118,12 +121,12 @@ def create_pairs_dataset(identity_df, model_type='custom', is_training=False):
     #final dataset
     dataset = dataset.map(process_pairs, num_parallel_calls=AUTOTUNE)
     if is_training:
-        dataset = dataset.shuffle(buffer_size=300)
+        dataset = dataset.shuffle(buffer_size=500)
     dataset = dataset.prefetch(AUTOTUNE)
     dataset = dataset.repeat()
 
     return dataset
-def get_train_val_test_splits(identity_df, model_type='custom', train_ratio=0.8, val_ratio=0.1):
+def get_train_val_test_splits(identity_df, model_type='custom', train_ratio=0.7, val_ratio=0.15):
     print(f"Using model type: {model_type}")
 
     # Split identities

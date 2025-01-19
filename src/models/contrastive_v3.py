@@ -75,17 +75,9 @@ def contrastive_loss(y_true, y_pred, margin=1.0):
     # Return mean loss
     return tf.reduce_mean(positive_loss + negative_loss) / 2.0
 
-def contrastive_accuracy(y_true, y_pred, threshold=0.5):
-    # Convert predictions to binary predictions using threshold
-    predictions = tf.less(y_pred, threshold)
-    # Convert to same type for comparison
-    y_true = tf.cast(y_true, tf.bool)
-    # Calculate accuracy
-    matches = tf.equal(predictions, y_true)
-    return tf.reduce_mean(tf.cast(matches, tf.float32))
-
 def create_and_compile_contrastive_v3(
         dropout_rate=0.3,
+        margin=0.3,
         learning_rate=0.0001,
 ):
     # Create model
@@ -96,7 +88,6 @@ def create_and_compile_contrastive_v3(
     # Compile model
     model.compile(
         optimizer=optimizer,
-        loss=contrastive_loss,
-        metrics=[contrastive_accuracy]
+        loss=contrastive_loss
     )
     return model
