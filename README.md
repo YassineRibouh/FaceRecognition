@@ -22,7 +22,7 @@ This repository presents a face recognition system trained using Siamese Neural 
 ### Model-Specific Learning Rates
 | Model | Learning Rate | Architecture Highlights |
 |-------|---------------|------------------------|
-| Contrastive V1 | 1e-3 | Basic CNN with L2 normalized embeddings |
+| Contrastive V1 | 1e-3 | Basic CNN |
 | Contrastive V2 | 5e-4 | Enhanced with residual connections |
 | Contrastive V3 | 1e-4 | EfficientNetB0 backbone |
 | Triplet V4 | 1e-5 | Basic architecture with LeakyReLU |
