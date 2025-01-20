@@ -1,5 +1,5 @@
 # FaceRecognition
-This repository presents a face recognition system trained using two loss functions—contrastive and triplet—across six models. For each loss type, three models were developed, including one with pretrained weights, to compare performance.
+This repository presents a face recognition system trained using Siamese Neural Networks with two loss functions—contrastive and triplet—across six models. For each loss type, three models were developed, including one with pretrained weights (EfficientNet), to compare performance.
 
 ## Experimental Setup
 
@@ -22,7 +22,7 @@ This repository presents a face recognition system trained using two loss functi
 ### Model-Specific Learning Rates
 | Model | Learning Rate | Architecture Highlights |
 |-------|---------------|------------------------|
-| Contrastive V1 | 1e-3 | Basic CNN with L2 normalized embeddings |
+| Contrastive V1 | 1e-3 | Basic CNN |
 | Contrastive V2 | 5e-4 | Enhanced with residual connections |
 | Contrastive V3 | 1e-4 | EfficientNetB0 backbone |
 | Triplet V4 | 1e-5 | Basic architecture with LeakyReLU |
