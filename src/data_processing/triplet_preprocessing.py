@@ -50,7 +50,8 @@ def create_triplets_dataset(identity_df, model_type='custom', is_training=False)
             image = efficientnet_v2.preprocess_input(image)
         else:
             image = tf.image.resize(image, (128, 128))
-            image = (image / 127.5) - 1.0 # [-1, 1]
+            # [-1, 1]
+            image = (image / 127.5) - 1.0
 
         # Apply augmentations during training
         if is_training:
@@ -167,6 +168,8 @@ def get_train_val_test_splits(identity_df, model_type='custom', train_ratio=0.7,
     return train_dataset, val_dataset, test_dataset
 
 identity_df = load_identity_data()
+
 train_triplet_dataset, val_triplet_dataset, test_triplet_dataset = get_train_val_test_splits(
     identity_df,
+    # 'custom' or 'efficientnet'
     model_type='custom')
