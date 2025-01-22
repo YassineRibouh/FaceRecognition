@@ -140,11 +140,11 @@ Softplus closely approximates max(0,x) while being fully differentiable everywhe
 | Model Type | Version | Accuracy | Precision | Recall | F1 | ROC AUC | PR AUC |
 |------------|---------|-----------|------------|--------|-----|---------|---------|
 | Contrastive | v1 | 81% | 79% | 82% | 81% | 88% | 86% |
-| Contrastive | v2 | 81% | 81% | 80% | 80% | 89% | 87% |
+| Contrastive | v2 | 81% | **81%** | 80% | 80% | 89% | 87% |
 | Contrastive | v3 (B0) | 80% | 76% | 87% | 81% | 87% | 83% |
 | Triplet | v4 | 75% | 73% | 79% | 76% | 83% | 81% |
 | Triplet | v5 | 80% | 75% | 89% | 81% | 88% | 86% |
-| Triplet | v6 (B3) | 84% | 79% | 93% | 86% | 91% | 88% |
+| Triplet | v6 (B3) | **84%** | 79% | **93%** | **86%** | **91%** | **88%** |
 
 ### Key Findings
 
