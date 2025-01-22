@@ -48,14 +48,64 @@ This repository presents a face recognition system trained using Siamese Neural 
   - Minimum LR: 1e-7
 
 ### Loss Functions
-- **Contrastive Loss**: 
-  ```python
-  loss = y_true * squared_distance + (1 - y_true) * max(margin - distance, 0)²
-  ```
-- **Triplet Loss**:
-  ```python
-  loss = softplus(pos_dist - neg_dist + margin) + regularization
-  ```
+
+**Contrastive Loss**: 
+
+$$
+d = \sqrt{\sum_{i=1}^n (x_i - y_i)^2}
+$$
+
+$$
+d^2 = \sum_{i=1}^n (x_i - y_i)^2
+$$
+
+$$
+L_{contrastive} = y \cdot d^2 + (1-y) \cdot [\max(0, m-d)]^2
+$$
+
+Where:
+- $$d$$ is the Euclidean distance between the pair of points
+- $$y$$ is the binary label (1 for similar pairs, 0 for dissimilar pairs)
+- $$m$$ is the margin parameter
+- $$n$$ is the embedding dimension
+
+
+
+**Triplet Loss**:
+
+$$
+d_p = \sum_{i=1}^n (a_i - p_i)^2
+$$
+
+$$
+d_n = \sum_{i=1}^n (a_i - n_i)^2
+$$
+
+$$
+\text{softplus}(x) = \log(e^x + 1)
+$$
+
+$$
+L_{basic} = \log(e^{(d_p - d_n + m)} + 1)
+$$
+
+$$
+L_{triplet} = L_{basic} + R
+$$
+
+Where:
+- $$d_p$$ is the squared Euclidean distance between anchor and positive embeddings
+- $$d_n$$ is the squared Euclidean distance between anchor and negative embeddings
+- $$m$$ is the margin parameter (default = 0.3)
+- $$R$$ is the regularization
+- $$n$$ is the embedding dimension
+
+We use `softplus(x) = log(exp(x) + 1)` instead of the traditional `max(0,x)` because:
+
+1. It provides smooth, continuous gradients (unlike max which has discontinuous gradients at x=0)
+2. This leads to more stable training and better optimization during backpropagation
+
+Softplus closely approximates max(0,x) while being fully differentiable everywhere.
 
 ## Training Analysis
 
