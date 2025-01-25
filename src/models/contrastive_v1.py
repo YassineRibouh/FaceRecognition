@@ -1,5 +1,6 @@
 from tensorflow.keras import layers, Model, Input
 import tensorflow as tf
+from loss_functions import contrastive_loss, contrastive_accuracy
 
 def create_embedding_network(dropout_rate=0.3):
 
@@ -73,16 +74,6 @@ def create_siamese_network(dropout_rate=0.3):
     )
     return model
 
-def contrastive_loss(y_true, y_pred, margin=1.0):
-    y_true = tf.cast(y_true, tf.float32)
-    # Square the predictions (distances)
-    squared_pred = tf.square(y_pred)
-    # Loss for similar pairs
-    positive_loss = y_true * squared_pred
-    # Loss for dissimilar pairs with margin
-    negative_loss = (1.0 - y_true) * tf.square(tf.maximum(margin - y_pred, 0))
-    # Return mean loss
-    return tf.reduce_mean(positive_loss + negative_loss) / 2.0
 def create_and_compile_contrastive_v1(
         dropout_rate=0.3,
         learning_rate=0.001,
@@ -95,6 +86,7 @@ def create_and_compile_contrastive_v1(
     # Compile model
     model.compile(
         optimizer=optimizer,
-        loss=contrastive_loss
+        loss=contrastive_loss,
+        metrics=[contrastive_accuracy]
     )
     return model

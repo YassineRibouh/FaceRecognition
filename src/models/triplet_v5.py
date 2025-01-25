@@ -1,5 +1,7 @@
 import tensorflow as tf
 from tensorflow.keras import layers, models
+from loss_functions import triplet_loss, triplet_accuracy
+
 
 def create_embedding_network(dropout_rate=0.2):
     inputs = layers.Input(shape=(128, 128, 3))
@@ -49,22 +51,6 @@ def create_embedding_network(dropout_rate=0.2):
     model = models.Model(inputs, embeddings, name="EmbeddingNetwork")
     return model
 
-def triplet_loss(margin=0.3):
-    def loss(y_true, y_pred):
-        # Split embeddings
-        anchor, positive, negative = tf.split(y_pred, 3, axis=1)
-        # Compute distances
-        pos_dist = tf.reduce_sum(tf.square(anchor - positive), axis=1)
-        neg_dist = tf.reduce_sum(tf.square(anchor - negative), axis=1)
-        # Smooth margin
-        basic_loss = tf.math.softplus(pos_dist - neg_dist + margin)
-        # Add regularization
-        regularization = 0.01 * (tf.reduce_mean(tf.square(anchor)) +
-                                 tf.reduce_mean(tf.square(positive)) +
-                                 tf.reduce_mean(tf.square(negative)))
-        return tf.reduce_mean(basic_loss) + regularization
-    return loss
-
 def create_triplet_model_v2(dropout_rate):
     input_shape=(128, 128, 3)
     anchor_input = layers.Input(shape=input_shape, name="anchor_input")
@@ -96,6 +82,7 @@ def create_and_compile_triplet_v5(dropout_rate=0.2, margin=0.3, learning_rate=1e
     )
     model.compile(
         optimizer=optimizer,
-        loss=triplet_loss(margin=margin)
+        loss=triplet_loss(margin=margin),
+        metrics=[triplet_accuracy]
     )
     return model
